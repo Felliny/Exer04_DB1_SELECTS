@@ -40,7 +40,7 @@ FOREIGN KEY (codEstoque) REFERENCES estoque (codigo)
 GO
 INSERT INTO editora VALUES
 (1,'Pearson','www.pearson.com.br'),
-(2,'CivilizaÁ„o Brasileira',NULL),
+(2,'Civiliza√ß√£o Brasileira',NULL),
 (3,'Makron Books','www.mbooks.com.br'),
 (4,'LTC','www.ltceditora.com.br'),
 (5,'Atual','www.atualeditora.com.br'),
@@ -49,21 +49,21 @@ GO
 INSERT INTO autor VALUES
 (101,'Andrew Tannenbaun','Desenvolvedor do Minix'),
 (102,'Fernando Henrique Cardoso','Ex-Presidente do Brasil'),
-(103,'Diva MarÌlia Flemming','Professora adjunta da UFSC'),
+(103,'Diva Mar√≠lia Flemming','Professora adjunta da UFSC'),
 (104,'David Halliday','Ph.D. da University of Pittsburgh'),
-(105,'Alfredo Steinbruch','Professor de Matem·tica da UFRS e da PUCRS'),
-(106,'Willian Roberto Cereja','Doutorado em Ling¸Ìstica Aplicada e Estudos da Linguagem'),
-(107,'William Stallings','Doutorado em CiÍncias da Computac„o pelo MIT'),
+(105,'Alfredo Steinbruch','Professor de Matem√°tica da UFRS e da PUCRS'),
+(106,'Willian Roberto Cereja','Doutorado em Ling√º√≠stica Aplicada e Estudos da Linguagem'),
+(107,'William Stallings','Doutorado em Ci√™ncias da Computac√£o pelo MIT'),
 (108,'Carlos Morimoto','Criador do Kurumin Linux')
 GO
 INSERT INTO estoque VALUES
 (10001,'Sistemas Operacionais Modernos ',4,108.00,1,101),
-(10002,'A Arte da PolÌtica',2,55.00,2,102),
+(10002,'A Arte da Pol√≠tica',2,55.00,2,102),
 (10003,'Calculo A',12,79.00,3,103),
-(10004,'Fundamentos de FÌsica I',26,68.00,4,104),
-(10005,'Geometria AnalÌtica',1,95.00,3,105),
-(10006,'Gram·tica Reflexiva',10,49.00,5,106),
-(10007,'Fundamentos de FÌsica III',1,78.00,4,104),
+(10004,'Fundamentos de F√≠sica I',26,68.00,4,104),
+(10005,'Geometria Anal√≠tica',1,95.00,3,105),
+(10006,'Gram√°tica Reflexiva',10,49.00,5,106),
+(10007,'Fundamentos de F√≠sica III',1,78.00,4,104),
 (10008,'Calculo B',3,95.00,3,103)
 GO
 INSERT INTO compra VALUES
@@ -77,9 +77,9 @@ INSERT INTO compra VALUES
 (15054,10003,1,79.00,'06/08/2021'),
 (15054,10008,1,95.00,'06/08/2021')
 
---1) Consultar nome, valor unit·rio, nome da editora e 
+--1) Consultar nome, valor unit√°rio, nome da editora e 
 --nome do autor dos livros do estoque que foram vendidos. 
---N„o podem haver repetiÁıes.
+--N√£o podem haver repeti√ß√µes.
 
 select es.nome,
 	   es.valor,
@@ -101,7 +101,7 @@ where es.codigo = com.codEstoque
 
 -- 3) Consultar Nome do livro e 
 -- site da editora dos livros da Makron books 
---(Caso o site tenha mais de 10 dÌgitos, remover o www.).
+--(Caso o site tenha mais de 10 d√≠gitos, remover o www.).
 
 select es.nome,
 	   SUBSTRING(edi.site, 5, 20) as site_editora
@@ -117,7 +117,7 @@ from estoque es, autor au
 where es.codAutor = au.codigo
 	and au.nome like 'David Halli%'
 
--- 5) Consultar cÛdigo de compra e quantidade comprada do 
+-- 5) Consultar c√≥digo de compra e quantidade comprada do 
 --livro Sistemas Operacionais Modernos	
 
 select com.codigo,
@@ -126,21 +126,21 @@ from compra com, estoque es
 where com.codEstoque = es.codigo
 	and es.nome like 'Sistemas Ope%'
 
--- 6) Consultar quais livros n„o foram vendidos
+-- 6) Consultar quais livros n√£o foram vendidos
 
 select es.nome,
 		es.codigo
 from estoque es left join compra com on es.codigo = com.codEstoque
 where com.codEstoque is null
 
--- 7) Consultar quais livros foram vendidos e n„o est„o cadastrados	
+-- 7) Consultar quais livros foram vendidos e n√£o est√£o cadastrados	
 
 select com.codEstoque
 from compra com left join estoque es on es.codigo = com.codEstoque
 where es.codigo is null
 
--- 8) Consultar Nome e site da editora que n„o tem Livros no estoque 
--- (Caso o site tenha mais de 10 dÌgitos, remover o www.)	
+-- 8) Consultar Nome e site da editora que n√£o tem Livros no estoque 
+-- (Caso o site tenha mais de 10 d√≠gitos, remover o www.)	
 
 select edi.nome,
 		case when (len(edi.site) > 10)
@@ -152,7 +152,7 @@ select edi.nome,
 from editora edi left join estoque es on es.codEditora = edi.codigo
 where es.codEditora is null
 
--- 9) Consultar Nome e biografia do autor que n„o tem Livros no estoque 
+-- 9) Consultar Nome e biografia do autor que n√£o tem Livros no estoque 
 -- (Caso a biografia inicie com Doutorado, substituir por Ph.D.)	
 
 select au.nome,
@@ -170,8 +170,8 @@ where au.codigo = es.codAutor
 group by au.nome, es.valor
 order by es.valor DESC
 
--- 11) Consultar o cÛdigo da compra, o total de livros comprados 
--- e a soma dos valores gastos. Ordenar por CÛdigo da Compra ascendente.
+-- 11) Consultar o c√≥digo da compra, o total de livros comprados 
+-- e a soma dos valores gastos. Ordenar por C√≥digo da Compra ascendente.
 	
 select com.codigo,
 		sum(com.qtdComprada) as quantidade_comprada,
@@ -180,8 +180,8 @@ from compra com
 group by com.codigo
 order by com.codigo asc
 
--- 12) Consultar o nome da editora e a mÈdia de preÁos dos livros em estoque.
---Ordenar pela MÈdia de Valores ascendente.
+-- 12) Consultar o nome da editora e a m√©dia de pre√ßos dos livros em estoque.
+--Ordenar pela M√©dia de Valores ascendente.
 
 
 select edi.nome,
@@ -192,12 +192,12 @@ group by edi.nome
 order by media_valores asc
 
 -- 13) Consultar o nome do Livro, a quantidade em estoque o nome da editora, 
--- o site da editora (Caso o site tenha mais de 10 dÌgitos, remover o www.), 
+-- o site da editora (Caso o site tenha mais de 10 d√≠gitos, remover o www.), 
 -- criar uma coluna status onde:	
 --	Caso tenha menos de 5 livros em estoque, escrever Produto em Ponto de Pedido
 --	Caso tenha entre 5 e 10 livros em estoque, escrever Produto Acabando
 --	Caso tenha mais de 10 livros em estoque, escrever Estoque Suficiente
---	A OrdenaÁ„o deve ser por Quantidade ascendente
+--	A Ordena√ß√£o deve ser por Quantidade ascendente
 
 select es.nome, 
 		es.quantidade,
@@ -220,10 +220,10 @@ from estoque es, editora edi
 where es.codEditora = edi.codigo
 order by es.quantidade asc
 
--- 14) Para montar um relatÛrio, È necess·rio montar uma consulta com a 
--- seguinte saÌda: CÛdigo do Livro, Nome do Livro, Nome do Autor, Info 
+-- 14) Para montar um relat√≥rio, √© necess√°rio montar uma consulta com a 
+-- seguinte sa√≠da: C√≥digo do Livro, Nome do Livro, Nome do Autor, Info 
 -- Editora (Nome da Editora + Site) de todos os livros	
---	SÛ pode concatenar sites que n„o s„o nulos
+--	S√≥ pode concatenar sites que n√£o s√£o nulos
 
 select es.codigo,
 		es.nome,
@@ -238,8 +238,8 @@ from estoque es, autor au, editora edi
 where es.codAutor = au.codigo
 	and es.codEditora = edi.codigo
 
--- 15) Consultar Codigo da compra, quantos dias da compra atÈ hoje e 
--- quantos meses da compra atÈ hoje
+-- 15) Consultar Codigo da compra, quantos dias da compra at√© hoje e 
+-- quantos meses da compra at√© hoje
 
 select com.codigo,
 		DATEDIFF(day, com.dataCompra, GETDATE()) as dias_ate_hoje,
@@ -247,7 +247,7 @@ select com.codigo,
 from compra com
 group by com.codigo, com.dataCompra
 
--- 16) Consultar o cÛdigo da compra e a soma dos valores gastos das compras 
+-- 16) Consultar o c√≥digo da compra e a soma dos valores gastos das compras 
 -- que somam mais de 200.00	
 
 select comp.codigo,
